@@ -10,9 +10,9 @@ public class Library {
     public static ArrayList<Book> creatingBooks() {
         ArrayList<Book> books = new ArrayList<>(); // creates an empty list of books - can have infinite number of spots
         // ADD INFO (OF NEW BOOKS TO THE ARRAYLIST) TO THE BOOKS
-        books.add(new Book(1, "", ""));
-        books.add(new Book(2, "", ""));
-        books.add(new Book(3, "", ""));
+        books.add(new Book(1, "9781449474256", "Milk and Honey"));
+        books.add(new Book(2, "9780142407332", "The Outsiders"));
+        books.add(new Book(3, "9780061120084", "To Kill a Mockingbird"));
         books.add(new Book(4, "", ""));
         books.add(new Book(5, "", ""));
         books.add(new Book(6, "", ""));

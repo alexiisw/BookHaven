@@ -3,9 +3,9 @@ package com.pluralsight;
 public class Book {
 
     // the book information
-    int id;
-    String isbn;
-    String title;
+    private int id;
+    private String isbn;
+    private String title;
  //   boolean isCheckedOut = false;
    // String checkedOutBy;
     // checkedOut(); // stores borrower's name and marks book checked out

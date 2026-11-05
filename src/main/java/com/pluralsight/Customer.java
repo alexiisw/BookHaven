@@ -5,11 +5,11 @@ import java.time.LocalDate;
 public class Customer {
 
     // user information
-    String fullName;
-    LocalDate dateOfBirth;
-    String email;
-    String phoneNumber;
-    Book book;
+    private String fullName;
+    private LocalDate dateOfBirth;
+    private String email;
+    private String phoneNumber;
+    private Book book;
 
 
     public Customer(String fullName,
