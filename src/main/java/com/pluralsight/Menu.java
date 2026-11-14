@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Menu {
 
-    public static void showMenu(ArrayList<Book> books) {
+    public static void showMenu(ArrayList<Book> books, Customer customer) {
         Scanner read = new Scanner(System.in);
 
         boolean systemsRunning = true;
@@ -22,50 +22,84 @@ public class Menu {
             if (selectedOptionNum == 1) {
                 System.out.println("The books below are available: \n");
 
-
                 for (Book bookInfo : books) { // will pull each books info until the list runs through
-                    bookInfo.displayInfo(); //displays each book's info ; pulls display layout from separate class
-                } // enhanced 'for' loop above - original/drawn out code below:
-//              for (int i = 0; i < book.length; i++){ // will pull each books info until the list runs through
-//                    book[i].displayInfo(); //displays each book's info ; pulls display layout from separate class
-//                }
+                    if (!bookInfo.isCheckedOut()) {
+                        bookInfo.displayInfo(); //displays each book's info ; pulls display layout from separate class
+                    }
+                }
                 System.out.print("Please select from the following menu choices:\n");
                 System.out.println("(1)Select a Book \n(2)Exit - go back to home screen");
                 int availableOption = Integer.parseInt(read.nextLine());
 
-                if (availableOption == 1) { // need a code to allow book selection as well
-// NEEDS CODE!!              this step will identify the wanted book
-//                           this step will select the wanted book
-                    System.out.println("Please enter your full name: ");
-                    String userName = read.nextLine();
-// NEEDS CODE!!      ASSIGNS THE SELECTED BOOK TO THE NAME THAT SCREEN JUST PROMPTED TO ENTER
-//                    // this step adds the book to the checked out list
+                if (availableOption == 1) {
+                    System.out.println("Please enter the ID of the book you want: "); // Ask the user for the book ID
+                    int selectedBookId = Integer.parseInt(read.nextLine());
+
+                    Book selectedBook = null;
+                    for (Book bookInfo : books) {
+
+                        if (bookInfo.getId() == selectedBookId) { // compares the given book ID with a book ID in the system and see if there's a match
+                            selectedBook = bookInfo;
+                            break;
+                        }
+                    }
+                    if (selectedBook == null) { // checks whether the book was found
+                        System.out.println("Sorry, that book ID does not exist.");
+
+                    } else {
+                        boolean successful = customer.rentBook(selectedBook); // Check out the book to the customer
+
+                        if (successful) {
+                            System.out.println("Book successfully checked out!");
+                        } else {
+                            System.out.println("Sorry, this book cannot be checked out.");
+                        }
+                    }
                 } else if (availableOption == 2) {
                     System.out.print("Returning to the main menu");
                     // will automatically continue the loop vs exiting it
                 } else {
                     System.out.print("That is an invalid input, please try inputting selection again");
                 }
+
             } else if (selectedOptionNum == 2) {
                 System.out.println("The books below have been checked out: \n");
                 for (Book bookInfo : books) { // will pull each books info until the list runs through
-                    bookInfo.displayInfo(); //displays each book's info ; pulls display layout from separate class
-                } // enhanced 'for' loop above - original/drawn out code below:
-//              for (int i = 0; i < book.length; i++){ // will pull each books info until the list runs through
-//                    book[i].displayInfo(); //displays each book's info ; pulls display layout from separate class
-//              }
+                    if (!bookInfo.isCheckedOut()) {
+                        bookInfo.displayInfo(); //displays each book's info ; pulls display layout from separate class
+                    }
+                }
                 System.out.print("Please select from the following menu choices:\n");
                 System.out.print("(C)Check-in a Book \n(X)Exit - go back to home screen");
                 char checkedOutOption = Character.toUpperCase(read.nextLine().charAt(0)); // takes input, saves the first letter, and capitalizes the results
                 // to simplify options below, I could just change code above to Character.toUpperCase(homeScreen.nextLine().charAt(0)
+
                 if (checkedOutOption == 'C') {
                     System.out.println("Please enter the book ID of the book you want to return: ");
-                    int bookId = read.nextInt();
-// NEEDS CODE!!         this step identifies the selected book
-//                      this step clears the checked out book so it can go on the available list
-//                      NEEDS TO UNASSIGN BOOK TO THE NAME THAT SCREEN JUST PROMPTED TO ENTER
+                    int bookId = Integer.parseInt(read.nextLine());
+
+                    Book selectedBook = null;
+
+                    for (Book bookInfo: books) {
+                        if (bookInfo.getId() == bookId) { // compares the given book ID with a book ID in the system and see if there's a match
+                            selectedBook = bookInfo;
+                            break;
+                        }
+                    }
+                    if (selectedBook == null) { // checks whether the book was found
+                        System.out.println("Sorry, that book ID does not exist.");
+
+                    } else {
+                        boolean successful = customer.returnBook(selectedBook); // Check out the book to the customer
+
+                        if (successful) {
+                            System.out.println("Book successfully checked out!");
+                        } else {
+                            System.out.println("This book is not checked out to this borrower.");
+                        }
+                    }
                 } else if (checkedOutOption == 'X') {
-                    // will automatically continue the loop vs exiting it
+                    System.out.print("Returning to the main menu");// will automatically continue the loop vs exiting it
                 } else {
                     System.out.print("That is an invalid input, please try inputting selection again");
                 }
@@ -75,11 +109,7 @@ public class Menu {
             } else {
                 System.out.print("That is an invalid input, please try inputting selection again");
             }
-
-
+        }
     }
-
-
-
-    }}
+}
 
